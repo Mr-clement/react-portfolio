@@ -2,15 +2,24 @@ import {Dialog, Transition} from '@headlessui/react';
 import {Bars3BottomRightIcon} from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import Link from 'next/link';
-import {FC, Fragment, memo, useCallback, useMemo, useState} from 'react';
+import {FC, Fragment, memo, useCallback, useEffect, useMemo, useState} from 'react';
 
 import {SectionId} from '../../data/data';
 import {useNavObserver} from '../../hooks/useNavObserver';
+
+const navLabels: Partial<Record<SectionId, string>> = {
+  [SectionId.About]: 'À propos',
+  [SectionId.Resume]: 'CV',
+  [SectionId.Portfolio]: 'Portfolio',
+  [SectionId.Testimonials]: 'Témoignages',
+  [SectionId.Contact]: 'Contact',
+};
 
 export const headerID = 'headerNav';
 
 const Header: FC = memo(() => {
   const [currentSection, setCurrentSection] = useState<SectionId | null>(null);
+  const [navLoaded, setNavLoaded] = useState(false);
   const navSections = useMemo(
     () => [SectionId.About, SectionId.Resume, SectionId.Portfolio, SectionId.Testimonials, SectionId.Contact],
     [],
@@ -22,16 +31,20 @@ const Header: FC = memo(() => {
 
   useNavObserver(navSections.map(section => `#${section}`).join(','), intersectionHandler);
 
+  useEffect(() => {
+    setNavLoaded(true);
+  }, []);
+
   return (
     <>
-      <MobileNav currentSection={currentSection} navSections={navSections} />
-      <DesktopNav currentSection={currentSection} navSections={navSections} />
+      <MobileNav currentSection={currentSection} navSections={navSections} animate={navLoaded} />
+      <DesktopNav currentSection={currentSection} navSections={navSections} animate={navLoaded} />
     </>
   );
 });
 
-const DesktopNav: FC<{navSections: SectionId[]; currentSection: SectionId | null}> = memo(
-  ({navSections, currentSection}) => {
+const DesktopNav: FC<{navSections: SectionId[]; currentSection: SectionId | null; animate: boolean}> = memo(
+  ({navSections, currentSection, animate}) => {
     const baseClass =
       '-m-1.5 p-1.5 rounded-md font-bold first-letter:uppercase hover:transition-colors hover:duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 sm:hover:text-orange-500 text-neutral-100';
     const activeClass = classNames(baseClass, 'text-orange-500');
@@ -42,6 +55,7 @@ const DesktopNav: FC<{navSections: SectionId[]; currentSection: SectionId | null
           {navSections.map(section => (
             <NavItem
               activeClass={activeClass}
+              animate={animate}
               current={section === currentSection}
               inactiveClass={inactiveClass}
               key={section}
@@ -54,8 +68,8 @@ const DesktopNav: FC<{navSections: SectionId[]; currentSection: SectionId | null
   },
 );
 
-const MobileNav: FC<{navSections: SectionId[]; currentSection: SectionId | null}> = memo(
-  ({navSections, currentSection}) => {
+const MobileNav: FC<{navSections: SectionId[]; currentSection: SectionId | null; animate: boolean}> = memo(
+  ({navSections, currentSection, animate}) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const toggleOpen = useCallback(() => {
@@ -69,11 +83,11 @@ const MobileNav: FC<{navSections: SectionId[]; currentSection: SectionId | null}
     return (
       <>
         <button
-          aria-label="Menu Button"
+          aria-label="Bouton du menu"
           className="fixed right-2 top-2 z-40 rounded-md bg-orange-500 p-2 ring-offset-gray-800/60 hover:bg-orange-400 focus:outline-none focus:ring-0 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 sm:hidden"
           onClick={toggleOpen}>
           <Bars3BottomRightIcon className="h-8 w-8 text-white" />
-          <span className="sr-only">Open sidebar</span>
+          <span className="sr-only">Ouvrir le menu</span>
         </button>
         <Transition.Root as={Fragment} show={isOpen}>
           <Dialog as="div" className="fixed inset-0 z-40 flex sm:hidden" onClose={toggleOpen}>
@@ -100,6 +114,7 @@ const MobileNav: FC<{navSections: SectionId[]; currentSection: SectionId | null}
                   {navSections.map(section => (
                     <NavItem
                       activeClass={activeClass}
+                      animate={animate}
                       current={section === currentSection}
                       inactiveClass={inactiveClass}
                       key={section}
@@ -118,19 +133,23 @@ const MobileNav: FC<{navSections: SectionId[]; currentSection: SectionId | null}
 );
 
 const NavItem: FC<{
-  section: string;
+  section: SectionId;
   current: boolean;
   activeClass: string;
   inactiveClass: string;
+  animate: boolean;
   onClick?: () => void;
-}> = memo(({section, current, inactiveClass, activeClass, onClick}) => {
+}> = memo(({section, current, inactiveClass, activeClass, animate, onClick}) => {
   return (
     <Link
-      className={classNames(current ? activeClass : inactiveClass)}
+      className={classNames(current ? activeClass : inactiveClass, 'transition-all duration-500', {
+        'opacity-100 translate-x-0': animate,
+        'opacity-0 translate-x-4': !animate,
+      })}
       href={`/#${section}`}
       key={section}
       onClick={onClick}>
-      {section}
+      {navLabels[section]}
     </Link>
   );
 });

@@ -6,9 +6,11 @@ import {FC, memo} from 'react';
 import {heroData, SectionId} from '../../data/data';
 import Section from '../Layout/Section';
 import Socials from '../Socials';
+import {useRevealOnVisible} from '../../hooks/useRevealOnVisible';
 
 const Hero: FC = memo(() => {
   const {imageSrc, name, description, actions} = heroData;
+  const {ref, isVisible} = useRevealOnVisible<HTMLDivElement>();
 
   return (
     <Section noPadding sectionId={SectionId.Hero}>
@@ -20,7 +22,12 @@ const Hero: FC = memo(() => {
           priority
           src={imageSrc}
         />
-        <div className="z-10  max-w-screen-lg px-4 lg:px-0">
+        <div
+          ref={ref}
+          className={classNames(
+            'z-10 max-w-screen-lg px-4 lg:px-0 transition-all duration-700 ease-out',
+            isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10',
+          )}>
           <div className="flex flex-col items-center gap-y-6 rounded-xl bg-gray-800/40 p-6 text-center shadow-lg backdrop-blur-sm">
             <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-7xl">{name}</h1>
             {description}
