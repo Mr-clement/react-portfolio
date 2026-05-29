@@ -12,7 +12,7 @@ const Hero: FC = memo(() => {
   const {imageSrc, name, description, actions} = heroData;
   const {ref, isVisible} = useRevealOnVisible<HTMLDivElement>();
   const [pointer, setPointer] = useState({x: 50, y: 50});
-  const [blurAmount, setBlurAmount] = useState(12);
+  const [blurAmount, setBlurAmount] = useState(10);
 
   const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -22,7 +22,7 @@ const Hero: FC = memo(() => {
     const dy = y / 100 - 0.5;
     const distance = Math.sqrt(dx * dx + dy * dy);
     setPointer({x, y});
-    setBlurAmount(Math.min(24, 8 + distance * 24));
+    setBlurAmount(Math.min(18, 10 + distance * 14));
   }, []);
 
   const backgroundTransform = useMemo(() => {
@@ -54,7 +54,7 @@ const Hero: FC = memo(() => {
             style={{transform: backgroundTransform, clipPath: focusClip}}>
             <Image alt="focus-background" className="h-full w-full object-cover" placeholder="blur" priority src={imageSrc} />
           </div>
-          <div className="absolute inset-0 bg-black/35" />
+          <div className="absolute inset-0 bg-black/20" />
         </div>
 
         <div
