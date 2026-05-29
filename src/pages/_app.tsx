@@ -7,6 +7,7 @@ import {memo} from 'react';
 const MyApp = memo(({Component, pageProps}: AppProps): JSX.Element => {
   return (
     <>
+     
       <Component {...pageProps} />
     </>
   );

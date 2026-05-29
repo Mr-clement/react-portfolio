@@ -1,17 +1,16 @@
-import {ChevronDownIcon} from '@heroicons/react/24/outline';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
-import Image from 'next/image';
-import {FC, memo, useCallback, useMemo, useState} from 'react';
+import { FC, memo, useCallback, useMemo, useState } from 'react';
 
-import {heroData, SectionId} from '../../data/data';
+import { heroData, SectionId } from '../../data/data';
 import Section from '../Layout/Section';
 import Socials from '../Socials';
-import {useRevealOnVisible} from '../../hooks/useRevealOnVisible';
+import { useRevealOnVisible } from '../../hooks/useRevealOnVisible';
 
 const Hero: FC = memo(() => {
-  const {imageSrc, name, description, actions} = heroData;
-  const {ref, isVisible} = useRevealOnVisible<HTMLDivElement>();
-  const [pointer, setPointer] = useState({x: 50, y: 50});
+  const { name, description, actions } = heroData;
+  const { ref, isVisible } = useRevealOnVisible<HTMLDivElement>();
+  const [pointer, setPointer] = useState({ x: 0, y: 0 });
   const [blurAmount, setBlurAmount] = useState(10);
 
   const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
@@ -21,18 +20,28 @@ const Hero: FC = memo(() => {
     const dx = x / 100 - 0.5;
     const dy = y / 100 - 0.5;
     const distance = Math.sqrt(dx * dx + dy * dy);
-    setPointer({x, y});
+    setPointer({ x, y });
     setBlurAmount(Math.min(18, 10 + distance * 14));
   }, []);
 
   const backgroundTransform = useMemo(() => {
-    const moveX = (pointer.x - 50) * 0.14;
-    const moveY = (pointer.y - 50) * 0.14;
-    const rotate = (pointer.x - 50) * 0.6;
-    return `translate(${moveX * -1}%, ${moveY * -1}%) scale(1.14) rotate(${rotate}deg)`;
+    const x = (pointer.x - 50) / 50;
+    const y = (pointer.y - 50) / 50;
+    const speed = 12; // 👈 contrôle global
+
+    const moveX = x * speed; // intensité contrôlée
+    const moveY = y * speed;
+
+    const rotate = x * 6 + y * 6; // rotation subtile basée sur la position du pointeur
+
+    return `
+    translate(${-moveX}%, ${-moveY}%)
+    scale(1.14)
+    rotate(${rotate}deg)
+  `;
   }, [pointer]);
 
-  const focusClip = useMemo(() => `circle(14% at ${pointer.x}% ${pointer.y}%)`, [pointer]);
+  const focusClip = useMemo(() => `circle(7% at ${pointer.x}% ${pointer.y}%)`, [pointer]);
 
   return (
     <Section noPadding sectionId={SectionId.Hero}>
@@ -40,37 +49,48 @@ const Hero: FC = memo(() => {
         className="relative h-screen w-full overflow-hidden"
         onPointerMove={handlePointerMove}
         onPointerLeave={() => {
-          setPointer({x: 50, y: 50});
+          setPointer({ x: 50, y: 50 });
           setBlurAmount(12);
         }}>
         <div className="fixed inset-0 -z-20 pointer-events-none overflow-hidden">
-          <div
-            className="absolute inset-0 transition-all duration-700 ease-out"
-            style={{transform: backgroundTransform, filter: `blur(${blurAmount}px)`}}>
-            <Image alt="background" className="h-full w-full object-cover" placeholder="blur" priority src={imageSrc} />
-          </div>
-          <div
-            className="absolute inset-0 transition-all duration-700 ease-out"
-            style={{transform: backgroundTransform, clipPath: focusClip}}>
-            <Image alt="focus-background" className="h-full w-full object-cover" placeholder="blur" priority src={imageSrc} />
-          </div>
-          <div className="absolute inset-0 bg-black/20" />
-        </div>
 
+          {/* Couche 1 : vidéo floue en fond (toute la surface) */}
+          <div
+            className="absolute inset-0 transition-all duration-700 ease-out"
+            style={{ transform: backgroundTransform, filter: `blur(${blurAmount}px)` }}>
+            <video autoPlay muted loop playsInline className="h-full w-full object-cover">
+              <source src="/images/background2.mp4" type="video/mp4" />
+            </video>
+          </div>
+
+          {/* Couche 2 : vidéo nette uniquement dans le cercle focus */}
+          <div
+            className="absolute inset-0 transition-all duration-700 ease-out"
+            style={{ transform: backgroundTransform, clipPath: focusClip }}>
+            <video autoPlay muted loop playsInline className="h-full w-full object-cover">
+              <source src="/images/background2.mp4" type="video/mp4" />
+            </video>
+          </div>
+
+          {/* Overlay sombre global */}
+          <div className="absolute inset-0 bg-black/20" />
+
+        </div>
+        {/* Partie description de la page principale avec un effet de focus autour du pointeur de la souris, et un flou qui augmente à mesure que le pointeur s'éloigne du centre de l'écran. Le texte et les boutons d'action sont affichés au-dessus de l'image de fond, avec une animation d'apparition lorsqu'ils deviennent visibles à l'écran. */}
         <div
           ref={ref}
           className={classNames(
             'relative z-10 flex h-full w-full items-center justify-center transition-all duration-700 ease-out',
             isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10',
           )}>
-          <div className="flex flex-col items-center gap-y-6 rounded-xl bg-gray-800/40 p-6 text-center shadow-lg backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-y-6 rounded-xl bg-gray-800/40 p-6 text-center shadow-lg backdrop-blur-4">
             <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-7xl">{name}</h1>
             {description}
             <div className="flex gap-x-4 text-neutral-100">
               <Socials />
             </div>
             <div className="flex w-full justify-center gap-x-4">
-              {actions.map(({href, text, primary, Icon}) => (
+              {actions.map(({ href, text, primary, Icon }) => (
                 <a
                   className={classNames(
                     'flex gap-x-2 rounded-full border-2 bg-none px-4 py-2 text-sm font-medium text-white ring-offset-gray-700/80 hover:bg-[#7bbcb4]/20 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:text-base',

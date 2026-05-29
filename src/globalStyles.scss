@@ -42,16 +42,16 @@ body {
 
 @keyframes vertical-scroll {
   0% {
-    transform: translateY(0);
+    transform: translateY(0%);
   }
   100% {
-    transform: translateY(-50%);
+    transform: translateY(-70%);
   }
 }
 
 @keyframes vertical-scroll-slow {
   0% {
-    transform: translateY(0);
+    transform: translateY(0%);
   }
   100% {
     transform: translateY(-45%);
@@ -59,11 +59,11 @@ body {
 }
 
 .animate-vertical-scroll {
-  animation: vertical-scroll 20s linear infinite;
+  animation: vertical-scroll 35s linear infinite;
 }
 
 .animate-vertical-scroll-slow {
-  animation: vertical-scroll-slow 28s linear infinite;
+  animation: vertical-scroll-slow 35s linear infinite;
 }
 
 .side-scroll-text {

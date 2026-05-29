@@ -12,7 +12,31 @@ import Section from '../Layout/Section';
 
 const Portfolio: FC = memo(() => {
   return (
-    <Section className="bg-neutral-800" sectionId={SectionId.Portfolio}>
+    <Section className="bg-neutral-8000" sectionId={SectionId.Portfolio}>
+      <div className="fixed inset-0 -z-20 pointer-events-none overflow-hidden">
+          <div
+            className="absolute inset-0 transition-all duration-700 ease-out">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="h-full w-full object-cover"
+              src="/images/background2.mp4"
+            />
+            <div
+            className="absolute inset-0 transition-all duration-700 ease-out">
+            <div className="absolute inset-0 bg-black/40" />
+          </div>
+          </div>
+          <div
+            className="absolute inset-0 transition-all duration-700 ease-out">
+            <div className="absolute inset-0 bg-black/20" />
+          </div>
+          <div className="absolute inset-0" />
+        </div>
+        
+        
       <div className="flex flex-col gap-y-8">
         <h2 className="self-center text-xl font-bold text-white">Découvrez quelques réalisations</h2>
         <div className="w-full columns-2 md:columns-3 lg:columns-4">
@@ -24,6 +48,8 @@ const Portfolio: FC = memo(() => {
     </Section>
   );
 });
+
+
 
 Portfolio.displayName = 'Portfolio';
 export default Portfolio;
@@ -48,6 +74,10 @@ const AnimatedPortfolioItem: FC<{item: PortfolioItem; index: number}> = memo(({i
     </div>
   );
 });
+
+
+
+
 
 const ItemOverlay: FC<{item: PortfolioItem}> = memo(({item: {url, title, description}}) => {
   const [mobile, setMobile] = useState(false);
