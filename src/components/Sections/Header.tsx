@@ -37,8 +37,8 @@ const Header: FC = memo(() => {
 
   return (
     <>
-      <MobileNav currentSection={currentSection} navSections={navSections} animate={navLoaded} />
-      <DesktopNav currentSection={currentSection} navSections={navSections} animate={navLoaded} />
+      <MobileNav animate={navLoaded} currentSection={currentSection} navSections={navSections} />
+      <DesktopNav animate={navLoaded} currentSection={currentSection} navSections={navSections} />
     </>
   );
 });
@@ -50,8 +50,10 @@ const DesktopNav: FC<{navSections: SectionId[]; currentSection: SectionId | null
     const activeClass = classNames(baseClass, 'text-[#7bbcb4]');
     const inactiveClass = classNames(baseClass, 'text-neutral-100');
     return (
-      <header className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 hidden w-[92%] max-w-4xl p-2 rounded-xl sm:block web3-navbar" id={headerID}>
-          <nav className="flex justify-center gap-x-6">
+      <header
+        className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 hidden w-[92%] max-w-4xl p-2 rounded-xl sm:block web3-navbar"
+        id={headerID}>
+        <nav className="flex justify-center gap-x-6">
           {navSections.map(section => (
             <NavItem
               activeClass={activeClass}
@@ -83,12 +85,12 @@ const MobileNav: FC<{navSections: SectionId[]; currentSection: SectionId | null;
     return (
       <>
         <button
-              aria-label="Bouton du menu"
-              className="fixed right-3 top-3 z-50 rounded-lg bg-gradient-to-br from-[#0b3f39] via-[#0b6b63] to-[#7bbcb4] p-2 ring-offset-gray-800/60 hover:scale-105 transform-gpu transition sm:hidden"
-              onClick={toggleOpen}>
-              <Bars3BottomRightIcon className="h-7 w-7 text-white drop-shadow" />
-              <span className="sr-only">Ouvrir le menu</span>
-            </button>
+          aria-label="Bouton du menu"
+          className="fixed right-3 top-3 z-50 rounded-lg bg-gradient-to-br from-[#0b3f39] via-[#0b6b63] to-[#7bbcb4] p-2 ring-offset-gray-800/60 hover:scale-105 transform-gpu transition sm:hidden"
+          onClick={toggleOpen}>
+          <Bars3BottomRightIcon className="h-7 w-7 text-white drop-shadow" />
+          <span className="sr-only">Ouvrir le menu</span>
+        </button>
         <Transition.Root as={Fragment} show={isOpen}>
           <Dialog as="div" className="fixed inset-0 z-40 flex sm:hidden" onClose={toggleOpen}>
             <Transition.Child
@@ -142,15 +144,23 @@ const NavItem: FC<{
 }> = memo(({section, current, inactiveClass, activeClass, animate, onClick}) => {
   return (
     <Link
-      className={classNames('group relative inline-block', current ? activeClass : inactiveClass, 'transition-all duration-500 nav-neon', {
-        'opacity-100 translate-x-0': animate,
-        'opacity-0 translate-x-4': !animate,
-      })}
+      className={classNames(
+        'group relative inline-block',
+        current ? activeClass : inactiveClass,
+        'transition-all duration-500 nav-neon',
+        {
+          'opacity-100 translate-x-0': animate,
+          'opacity-0 translate-x-4': !animate,
+        },
+      )}
       href={`/#${section}`}
       key={section}
       onClick={onClick}>
       <span className="relative z-10">{navLabels[section]}</span>
-      <span className="absolute left-0 right-0 bottom-0 h-0.5 rounded-full bg-gradient-to-r from-[#7bbcb4] to-[#8dded7] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" aria-hidden />
+      <span
+        aria-hidden
+        className="absolute left-0 right-0 bottom-0 h-0.5 rounded-full bg-gradient-to-r from-[#7bbcb4] to-[#8dded7] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
+      />
     </Link>
   );
 });

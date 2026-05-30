@@ -1,18 +1,17 @@
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import {ChevronDownIcon} from '@heroicons/react/24/outline';
 import classNames from 'classnames';
-import { FC, memo, useCallback, useMemo, useState } from 'react';
+import {FC, memo, useCallback, useMemo, useState} from 'react';
 
-import { heroData, SectionId } from '../../data/data';
+import {heroData, SectionId} from '../../data/data';
+import {useRevealOnVisible} from '../../hooks/useRevealOnVisible';
 import Section from '../Layout/Section';
 import Socials from '../Socials';
-import { useRevealOnVisible } from '../../hooks/useRevealOnVisible';
 
 const Hero: FC = memo(() => {
-  const { name, description, actions } = heroData;
-  const { ref, isVisible } = useRevealOnVisible<HTMLDivElement>();
-  const [pointer, setPointer] = useState({ x: 50, y: 50 });
+  const {name, description, actions} = heroData;
+  const {ref, isVisible} = useRevealOnVisible<HTMLDivElement>();
+  const [pointer, setPointer] = useState({x: 50, y: 50});
   const [blurAmount, setBlurAmount] = useState(2);
-
 
   const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -21,7 +20,7 @@ const Hero: FC = memo(() => {
     const dx = x / 100 - 0.5;
     const dy = y / 100 - 0.5;
     const distance = Math.sqrt(dx * dx + dy * dy);
-    setPointer({ x, y });
+    setPointer({x, y});
     setBlurAmount(Math.min(6, 2 + distance * 4));
   }, []);
 
@@ -35,39 +34,34 @@ const Hero: FC = memo(() => {
     return `translate(${-moveX}%, ${-moveY}%) scale(1.14) rotate(${rotate}deg)`;
   }, [pointer]);
 
-
   return (
     <Section noPadding sectionId={SectionId.Hero}>
       <div
         className="relative h-screen w-full overflow-hidden"
-        onPointerMove={handlePointerMove}
         onPointerLeave={() => {
-              setPointer({ x: 50, y: 50 });
-              setBlurAmount(1);
-            }}>
-         
-
-          {/* Couche 1 : vidéo floue en fond (toute la surface) */}
-           <div
-            className="fixed inset-0 -z-20 transition-all duration-700 ease-out"
-            style={{ transform: backgroundTransform, filter: `blur(${blurAmount}px)` }}>
-            <video autoPlay muted loop playsInline className="h-full w-full object-cover">
-              <source src="/images/background1.mp4" type="video/mp4" />
-            </video> 
-            {/* Overlay sombre global en fond stylisé */}
+          setPointer({x: 50, y: 50});
+          setBlurAmount(1);
+        }}
+        onPointerMove={handlePointerMove}>
+        {/* Couche 1 : vidéo floue en fond (toute la surface) */}
+        <div
+          className="fixed inset-0 -z-20 transition-all duration-700 ease-out"
+          style={{transform: backgroundTransform, filter: `blur(${blurAmount}px)`}}>
+          <video autoPlay className="h-full w-full object-cover" loop muted playsInline>
+            <source src="/images/background1.mp4" type="video/mp4" />
+          </video>
+          {/* Overlay sombre global en fond stylisé */}
           <div className="absolute inset-0 overlay-bg" style={{opacity: 0.85}} />
-          </div>
-         
+        </div>
 
         {/* Partie description de la page principale avec un effet de focus autour du pointeur de la souris, et un flou qui augmente à mesure que le pointeur s'éloigne du centre de l'écran. Le texte et les boutons d'action sont affichés au-dessus de l'image de fond, avec une animation d'apparition lorsqu'ils deviennent visibles à l'écran. */}
-        
 
         <div
-          ref={ref}
           className={classNames(
             'relative z-10 flex h-full w-full items-center justify-center transition-all duration-700 ease-out',
             isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10',
-          )}>
+          )}
+          ref={ref}>
           <div className="flex flex-col items-center w-[75%] gap-y-6 rounded-xl bg-gray-800/40 p-6 text-center shadow-lg backdrop-blur-4">
             <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-7xl">{name}</h1>
             {description}
@@ -75,7 +69,7 @@ const Hero: FC = memo(() => {
               <Socials />
             </div>
             <div className="flex w-full justify-center gap-x-4">
-              {actions.map(({ href, text, primary, Icon }) => (
+              {actions.map(({href, text, primary, Icon}) => (
                 <a
                   className={classNames(
                     'flex gap-x-2 rounded-full border-2 bg-none px-4 py-2 text-sm font-medium text-white ring-offset-gray-700/80 hover:bg-[#7bbcb4]/20 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:text-base',

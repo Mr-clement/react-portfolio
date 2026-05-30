@@ -12,7 +12,6 @@ import GithubIcon from '../components/Icon/GithubIcon';
 import InstagramIcon from '../components/Icon/InstagramIcon';
 import LinkedInIcon from '../components/Icon/LinkedInIcon';
 import TwitterIcon from '../components/Icon/TwitterIcon';
-import heroImage from '../images/profil.png';
 import porfolioImage1 from '../images/portfolio/portfolio-1.jpg';
 import porfolioImage2 from '../images/portfolio/portfolio-2.jpg';
 import porfolioImage3 from '../images/portfolio/portfolio-3.jpg';
@@ -24,6 +23,7 @@ import porfolioImage8 from '../images/portfolio/portfolio-8.jpg';
 import porfolioImage9 from '../images/portfolio/portfolio-9.jpg';
 import porfolioImage10 from '../images/portfolio/portfolio-10.jpg';
 import porfolioImage11 from '../images/portfolio/portfolio-11.jpg';
+import heroImage from '../images/profil.png';
 import testimonialImage from '../images/testimonial.webp';
 import {
   About,
@@ -43,7 +43,7 @@ import {
  */
 export const homePageMeta: HomepageMeta = {
   title: 'Clément AMLAGAN',
-  description: "Portfolio professionnel de Clément Amlagan, développeur web et mobile full stack.",
+  description: 'Portfolio professionnel de Clément Amlagan, développeur web et mobile full stack.',
 };
 
 /**
@@ -72,8 +72,9 @@ export const heroData: Hero = {
     <>
       <p className="prose-sm text-stone-200 sm:prose-base lg:prose-lg">
         Développeur web et mobile full stack basé à Lomé, Togo, spécialisé dans la création d'applications modernes et
-        responsives avec <strong className="text-stone-100">React</strong>, <strong className="text-stone-100">React Native</strong>,
-        <strong className="text-stone-100">Node.js</strong> et <strong className="text-stone-100">Django</strong>.
+        responsives avec <strong className="text-stone-100">React</strong>,{' '}
+        <strong className="text-stone-100">React Native</strong>,<strong className="text-stone-100">Node.js</strong> et{' '}
+        <strong className="text-stone-100">Django</strong>.
       </p>
       <p className="prose-sm text-stone-200 sm:prose-base lg:prose-lg">
         Je conçois des interfaces performantes, je résous des problèmes techniques complexes et j'aime proposer des
@@ -291,7 +292,9 @@ export const education: TimelineItem[] = [
     date: '2022 – 2023',
     location: 'Institut Polytechnique DEFITECH',
     title: 'Formation Développement d’Applications (DA)',
-    content: <p>Programme spécialisé en conception d’applications, architecture logicielle et technologies web modernes.</p>,
+    content: (
+      <p>Programme spécialisé en conception d’applications, architecture logicielle et technologies web modernes.</p>
+    ),
   },
   {
     date: '2023 – 2024',

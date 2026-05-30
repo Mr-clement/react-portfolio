@@ -1,32 +1,36 @@
-import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
+import {ArrowTopRightOnSquareIcon} from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import Image from 'next/image';
-import { FC, memo, MouseEvent, useCallback, useEffect, useRef, useState } from 'react';
+import {FC, memo, MouseEvent, useCallback, useEffect, useRef, useState} from 'react';
 
-import { isMobile } from '../../config';
-import { portfolioItems, SectionId } from '../../data/data';
-import { PortfolioItem } from '../../data/dataDef';
+import {isMobile} from '../../config';
+import {portfolioItems, SectionId} from '../../data/data';
+import {PortfolioItem} from '../../data/dataDef';
 import useDetectOutsideClick from '../../hooks/useDetectOutsideClick';
-import { useRevealOnVisible } from '../../hooks/useRevealOnVisible';
+import {useRevealOnVisible} from '../../hooks/useRevealOnVisible';
 import Section from '../Layout/Section';
 
 const Portfolio: FC = memo(() => {
   return (
-      
     <Section className="bg-neutral-8000 relative" sectionId={SectionId.Portfolio}>
       <div className="absolute inset-0 -z-20 pointer-events-none overflow-hidden">
-        <video autoPlay muted loop playsInline className="fixed inset-0 h-full w-full object-cover -z-20" style={{filter: 'blur(2px)'}}>
+        <video
+          autoPlay
+          className="fixed inset-0 h-full w-full object-cover -z-20"
+          loop
+          muted
+          playsInline
+          style={{filter: 'blur(2px)'}}>
           <source src="/images/background1.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 overlay-bg" />
       </div>
 
-
       <div className="flex flex-col gap-y-8">
         <h2 className="self-center text-xl font-bold text-white">Découvrez quelques réalisations</h2>
         <div className="w-full columns-2 md:columns-3 lg:columns-4">
           {portfolioItems.map((item, index) => (
-            <AnimatedPortfolioItem item={item} index={index} key={`${item.title}-${index}`} />
+            <AnimatedPortfolioItem index={index} item={item} key={`${item.title}-${index}`} />
           ))}
         </div>
       </div>
@@ -34,21 +38,19 @@ const Portfolio: FC = memo(() => {
   );
 });
 
-
-
 Portfolio.displayName = 'Portfolio';
 export default Portfolio;
 
-const AnimatedPortfolioItem: FC<{ item: PortfolioItem; index: number }> = memo(({ item, index }) => {
-  const { ref, isVisible } = useRevealOnVisible<HTMLDivElement>();
+const AnimatedPortfolioItem: FC<{item: PortfolioItem; index: number}> = memo(({item, index}) => {
+  const {ref, isVisible} = useRevealOnVisible<HTMLDivElement>();
   const slideDirection = index % 2 === 0 ? 'translate-x-10' : '-translate-x-10';
   return (
     <div
-      ref={ref}
       className={classNames(
         'pb-6 transition-all duration-700 ease-out',
         isVisible ? 'opacity-100 translate-x-0' : `opacity-0 ${slideDirection}`,
-      )}>
+      )}
+      ref={ref}>
       <div
         className={classNames(
           'relative h-max w-full overflow-hidden rounded-lg shadow-lg shadow-black/30 lg:shadow-xl',
@@ -60,11 +62,7 @@ const AnimatedPortfolioItem: FC<{ item: PortfolioItem; index: number }> = memo((
   );
 });
 
-
-
-
-
-const ItemOverlay: FC<{ item: PortfolioItem }> = memo(({ item: { url, title, description } }) => {
+const ItemOverlay: FC<{item: PortfolioItem}> = memo(({item: {url, title, description}}) => {
   const [mobile, setMobile] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
   const linkRef = useRef<HTMLAnchorElement>(null);
@@ -91,7 +89,7 @@ const ItemOverlay: FC<{ item: PortfolioItem }> = memo(({ item: { url, title, des
     <a
       className={classNames(
         'absolute inset-0 h-full w-full bg-gray-900 transition-all duration-300',
-        { 'opacity-0 hover:opacity-80': !mobile },
+        {'opacity-0 hover:opacity-80': !mobile},
         showOverlay ? 'opacity-80' : 'opacity-0',
       )}
       href={url}
