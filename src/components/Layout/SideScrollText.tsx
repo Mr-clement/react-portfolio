@@ -28,7 +28,7 @@ const SideScrollText: FC = memo(() => {
     <>
       <div
         aria-hidden="true"
-        className={`fixed right-0 top-0 z-10 h-screen w-20 items-center justify-center py-4 flex ${
+        className={`fixed left-2 top-0 z-10 h-screen w-30 items-center justify-center py-4 flex ${
           hidden ? 'opacity-0' : 'opacity-100'
         } transition-opacity duration-700`}> 
         <div className="h-full overflow-hidden">

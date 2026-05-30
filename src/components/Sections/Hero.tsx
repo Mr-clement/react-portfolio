@@ -27,7 +27,7 @@ const Hero: FC = memo(() => {
   const backgroundTransform = useMemo(() => {
     const x = (pointer.x - 50) / 50;
     const y = (pointer.y - 50) / 50;
-    const speed = 12; // 👈 contrôle global
+    const speed = 4; // 👈 contrôle global
 
     const moveX = x * speed; // intensité contrôlée
     const moveY = y * speed;
@@ -41,7 +41,7 @@ const Hero: FC = memo(() => {
   `;
   }, [pointer]);
 
-  const focusClip = useMemo(() => `circle(7% at ${pointer.x}% ${pointer.y}%)`, [pointer]);
+  //const focusClip = useMemo(() => `circle(7% at ${pointer.x}% ${pointer.y}%)`, [pointer]);
 
   return (
     <Section noPadding sectionId={SectionId.Hero}>
@@ -52,38 +52,30 @@ const Hero: FC = memo(() => {
           setPointer({ x: 50, y: 50 });
           setBlurAmount(12);
         }}>
-        <div className="fixed inset-0 -z-20 pointer-events-none overflow-hidden">
+         
 
           {/* Couche 1 : vidéo floue en fond (toute la surface) */}
-          <div
+           <div
             className="absolute inset-0 transition-all duration-700 ease-out"
             style={{ transform: backgroundTransform, filter: `blur(${blurAmount}px)` }}>
             <video autoPlay muted loop playsInline className="h-full w-full object-cover">
-              <source src="/images/background2.mp4" type="video/mp4" />
-            </video>
-          </div>
+              <source src="/images/background1.mp4" type="video/mp4" />
+            </video> 
+            {/* Overlay sombre global */}
+          <div className="absolute inset-0 bg-black/40" />
+          </div> 
+         
 
-          {/* Couche 2 : vidéo nette uniquement dans le cercle focus */}
-          <div
-            className="absolute inset-0 transition-all duration-700 ease-out"
-            style={{ transform: backgroundTransform, clipPath: focusClip }}>
-            <video autoPlay muted loop playsInline className="h-full w-full object-cover">
-              <source src="/images/background2.mp4" type="video/mp4" />
-            </video>
-          </div>
-
-          {/* Overlay sombre global */}
-          <div className="absolute inset-0 bg-black/20" />
-
-        </div>
         {/* Partie description de la page principale avec un effet de focus autour du pointeur de la souris, et un flou qui augmente à mesure que le pointeur s'éloigne du centre de l'écran. Le texte et les boutons d'action sont affichés au-dessus de l'image de fond, avec une animation d'apparition lorsqu'ils deviennent visibles à l'écran. */}
+        
+
         <div
           ref={ref}
           className={classNames(
             'relative z-10 flex h-full w-full items-center justify-center transition-all duration-700 ease-out',
             isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10',
           )}>
-          <div className="flex flex-col items-center gap-y-6 rounded-xl bg-gray-800/40 p-6 text-center shadow-lg backdrop-blur-4">
+          <div className="flex flex-col items-center w-[75%] gap-y-6 rounded-xl bg-gray-800/40 p-6 text-center shadow-lg backdrop-blur-4">
             <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-7xl">{name}</h1>
             {description}
             <div className="flex gap-x-4 text-neutral-100">
