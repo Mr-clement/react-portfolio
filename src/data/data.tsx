@@ -83,7 +83,7 @@ export const heroData: Hero = {
   ),
   actions: [
     {
-      href: '/assets/resume.pdf',
+      href: '/assets/Clement_AMLAGAN_CV.pdf',
       text: 'Télécharger le CV',
       primary: true,
       Icon: ArrowDownTrayIcon,
@@ -109,7 +109,7 @@ export const aboutData: About = {
     {label: 'Téléphone', text: '+228 99403839', Icon: CalendarIcon},
     {label: 'Email', text: 'amlaganclement@gmail.com', Icon: FlagIcon},
     {label: 'LinkedIn', text: 'clement-amlagan-20231234a', Icon: SparklesIcon},
-    {label: 'GitHub', text: 'github.com/MrCLET', Icon: AcademicCapIcon},
+    {label: 'GitHub', text: 'github.com/Mr-clement', Icon: AcademicCapIcon},
     {label: 'Disponibilité', text: 'Télétravail possible', Icon: BuildingOffice2Icon},
   ],
 };
@@ -212,67 +212,67 @@ export const portfolioItems: PortfolioItem[] = [
   {
     title: 'Applications Web & Mobiles',
     description: 'Développement de projets web et mobiles modernes avec React, React Native, Node.js et MongoDB.',
-    url: 'https://github.com/MrCLET',
+    url: 'https://github.com/Mr-clement',
     image: porfolioImage1,
   },
   {
     title: 'Blog Full Stack',
     description: 'Blog dynamique avec authentification, commentaires et gestion des utilisateurs.',
-    url: 'https://github.com/MrCLET',
+    url: 'https://github.com/Mr-clement',
     image: porfolioImage2,
   },
   {
     title: 'Application de Restauration',
     description: 'Solution Django pour la gestion des menus, commandes et interface administrateur.',
-    url: 'https://github.com/MrCLET',
+    url: 'https://github.com/Mr-clement',
     image: porfolioImage3,
   },
   {
     title: 'Dashboard Administratif',
     description: 'Interface d’administration responsive avec statistiques et gestion de contenu.',
-    url: 'https://github.com/MrCLET',
+    url: 'https://github.com/Mr-clement',
     image: porfolioImage4,
   },
   {
     title: 'Site Vitrine',
     description: 'Site de présentation responsive développé avec React, HTML5 et CSS3.',
-    url: 'https://github.com/MrCLET',
+    url: 'https://github.com/Mr-clement',
     image: porfolioImage5,
   },
   {
     title: 'API REST Node.js',
     description: 'API backend sécurisée avec Node.js, Express et gestion de base MongoDB.',
-    url: 'https://github.com/MrCLET',
+    url: 'https://github.com/Mr-clement',
     image: porfolioImage6,
   },
   {
     title: 'Prototype E-commerce',
     description: 'Prototype de boutique en ligne avec catalogue, panier et paiements simulés.',
-    url: 'https://github.com/MrCLET',
+    url: 'https://github.com/Mr-clement',
     image: porfolioImage7,
   },
   {
     title: 'Application Mobile',
     description: 'Prototype natif multiplateforme avec React Native pour Android et iOS.',
-    url: 'https://github.com/MrCLET',
+    url: 'https://github.com/Mr-clement',
     image: porfolioImage8,
   },
   {
     title: 'Micro-service Django',
     description: 'Service Python/Django dédié à la gestion des données et des APIs REST.',
-    url: 'https://github.com/MrCLET',
+    url: 'https://github.com/Mr-clement',
     image: porfolioImage9,
   },
   {
     title: 'Optimisation des Performances',
     description: 'Amélioration de la vitesse et de l’expérience utilisateur pour des interfaces fluides.',
-    url: 'https://github.com/MrCLET',
+    url: 'https://github.com/Mr-clement',
     image: porfolioImage10,
   },
   {
     title: 'Déploiement & CI/CD',
     description: 'Configuration de déploiement et automatisation avec Vercel et Postman.',
-    url: 'https://github.com/MrCLET',
+    url: 'https://github.com/Mr-clement',
     image: porfolioImage11,
   },
 ];
@@ -375,8 +375,8 @@ export const contact: ContactSection = {
     },
     {
       type: ContactType.Github,
-      text: 'github.com/MrCLET',
-      href: 'https://github.com/MrCLET',
+      text: 'github.com/Mr-clement',
+      href: 'https://github.com/Mr-clement',
     },
   ],
 };
@@ -385,8 +385,8 @@ export const contact: ContactSection = {
  * Social items
  */
 export const socialLinks: Social[] = [
-  {label: 'Github', Icon: GithubIcon, href: 'https://github.com/MrCLET'},
+  {label: 'Github', Icon: GithubIcon, href: 'https://github.com/Mr-clement'},
   {label: 'LinkedIn', Icon: LinkedInIcon, href: 'https://www.linkedin.com/in/clement-amlagan-20231234a'},
-  {label: 'Instagram', Icon: InstagramIcon, href: 'https://www.instagram.com/MrCLET'},
-  {label: 'Twitter', Icon: TwitterIcon, href: 'https://twitter.com/MrCLET'},
+  {label: 'Instagram', Icon: InstagramIcon, href: 'https://www.instagram.com/Mr-clement'},
+  {label: 'Twitter', Icon: TwitterIcon, href: 'https://twitter.com/Mr-clement'},
 ];

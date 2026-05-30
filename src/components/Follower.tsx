@@ -36,8 +36,8 @@ const Follower: FC = () => {
 
     const tick = () => {
       setFollower(prev => ({
-        x: lerp(prev.x, pointer.x, 0.06),
-        y: lerp(prev.y, pointer.y, 0.06),
+        x: lerp(prev.x, pointer.x, 0.01),
+        y: lerp(prev.y, pointer.y, 0.02),
       }));
       rafRef.current = requestAnimationFrame(tick);
     };
@@ -66,8 +66,9 @@ const Follower: FC = () => {
         height: 160,
         pointerEvents: 'none',
         transform: `translate(-50%, -50%) translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(${sc})`,
-        transition: 'transform 160ms linear',
-        zIndex: 5,
+        transition: 'transform 200ms linear',
+        zIndex: 0,
+         opacity: 0.5,
       }}>
       <svg viewBox="0 0 180 120" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
         <defs>
