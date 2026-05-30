@@ -77,20 +77,22 @@ const Follower = React.memo(() => {
         transition: 'transform 200ms linear',
         zIndex: 3,
         opacity: 0.9,
-      }}>
+      }}
+    >
       <svg
-        height="100%"
-        preserveAspectRatio="xMidYMid meet"
-        viewBox="0 0 180 120"
         width="100%"
-        xmlns="http://www.w3.org/2000/svg">
+        height="100%"
+        viewBox="0 0 180 120"
+        preserveAspectRatio="xMidYMid meet"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <defs>
           <linearGradient id="gWeb3Global" x1="0" x2="1">
             <stop offset="0%" stopColor="#7bbcb4" stopOpacity="0.9" />
             <stop offset="60%" stopColor="#0b6b63" stopOpacity="0.8" />
           </linearGradient>
 
-          <filter height="180%" id="fBlurGlobal" width="180%" x="-40%" y="-40%">
+          <filter id="fBlurGlobal" x="-40%" y="-40%" width="180%" height="180%">
             <feGaussianBlur stdDeviation="8" />
           </filter>
         </defs>
@@ -107,5 +109,6 @@ const Follower = React.memo(() => {
     </div>
   );
 });
+
 
 export default Follower;
