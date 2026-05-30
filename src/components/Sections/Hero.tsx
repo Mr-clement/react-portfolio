@@ -11,7 +11,7 @@ const Hero: FC = memo(() => {
   const { name, description, actions } = heroData;
   const { ref, isVisible } = useRevealOnVisible<HTMLDivElement>();
   const [pointer, setPointer] = useState({ x: 50, y: 50 });
-  const [blurAmount, setBlurAmount] = useState(4);
+  const [blurAmount, setBlurAmount] = useState(2);
 
 
   const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
@@ -22,7 +22,7 @@ const Hero: FC = memo(() => {
     const dy = y / 100 - 0.5;
     const distance = Math.sqrt(dx * dx + dy * dy);
     setPointer({ x, y });
-    setBlurAmount(Math.min(10, 4 + distance * 8));
+    setBlurAmount(Math.min(6, 2 + distance * 4));
   }, []);
 
   const backgroundTransform = useMemo(() => {
@@ -43,7 +43,7 @@ const Hero: FC = memo(() => {
         onPointerMove={handlePointerMove}
         onPointerLeave={() => {
               setPointer({ x: 50, y: 50 });
-              setBlurAmount(12);
+              setBlurAmount(1);
             }}>
          
 

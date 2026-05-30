@@ -67,8 +67,8 @@ const Follower: FC = () => {
         pointerEvents: 'none',
         transform: `translate(-50%, -50%) translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(${sc})`,
         transition: 'transform 200ms linear',
-        zIndex: 0,
-         opacity: 0.5,
+        zIndex: 3,
+         opacity: 0.9,
       }}>
       <svg viewBox="0 0 180 120" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
         <defs>
