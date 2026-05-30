@@ -101,7 +101,7 @@ export const heroData: Hero = {
  * About section
  */
 export const aboutData: About = {
-  profileImageSrc: profilepic,
+  profileImageSrc: heroImage,
   description: `Développeur web passionné par la création d'applications modernes et responsives. Compétences en frontend
   et backend avec React, React Native, Node.js et Django. Capable de travailler en équipe, résoudre des problèmes
   techniques et développer des interfaces performantes.`,

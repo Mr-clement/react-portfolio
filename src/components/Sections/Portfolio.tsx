@@ -15,11 +15,10 @@ const Portfolio: FC = memo(() => {
       
     <Section className="bg-neutral-8000 relative" sectionId={SectionId.Portfolio}>
       <div className="absolute inset-0 -z-20 pointer-events-none overflow-hidden">
-        <video autoPlay muted loop playsInline className=" fixed h-full w-full object-cover">
+        <video autoPlay muted loop playsInline className="fixed inset-0 h-full w-full object-cover -z-20">
           <source src="/images/background3.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-black/40" />
-        
       </div>
 
 

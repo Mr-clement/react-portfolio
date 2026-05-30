@@ -10,8 +10,8 @@ import { useRevealOnVisible } from '../../hooks/useRevealOnVisible';
 const Hero: FC = memo(() => {
   const { name, description, actions } = heroData;
   const { ref, isVisible } = useRevealOnVisible<HTMLDivElement>();
-  const [pointer, setPointer] = useState({ x: 0, y: 0 });
-  const [blurAmount, setBlurAmount] = useState(10);
+  const [pointer, setPointer] = useState({ x: 50, y: 50 });
+  const [blurAmount, setBlurAmount] = useState(4);
 
   const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -21,7 +21,7 @@ const Hero: FC = memo(() => {
     const dy = y / 100 - 0.5;
     const distance = Math.sqrt(dx * dx + dy * dy);
     setPointer({ x, y });
-    setBlurAmount(Math.min(18, 10 + distance * 14));
+    setBlurAmount(Math.min(10, 4 + distance * 8));
   }, []);
 
   const backgroundTransform = useMemo(() => {
@@ -49,14 +49,14 @@ const Hero: FC = memo(() => {
         className="relative h-screen w-full overflow-hidden"
         onPointerMove={handlePointerMove}
         onPointerLeave={() => {
-          setPointer({ x: 50, y: 50 });
-          setBlurAmount(12);
-        }}>
+              setPointer({ x: 50, y: 50 });
+              setBlurAmount(4);
+            }}>
          
 
           {/* Couche 1 : vidéo floue en fond (toute la surface) */}
            <div
-            className="absolute inset-0 transition-all duration-700 ease-out"
+            className="fixed inset-0 -z-20 transition-all duration-700 ease-out"
             style={{ transform: backgroundTransform, filter: `blur(${blurAmount}px)` }}>
             <video autoPlay muted loop playsInline className="h-full w-full object-cover">
               <source src="/images/background1.mp4" type="video/mp4" />
@@ -64,6 +64,25 @@ const Hero: FC = memo(() => {
             {/* Overlay sombre global */}
           <div className="absolute inset-0 bg-black/40" />
           </div> 
+         
+         {/* Rond suiveur du pointeur, couleur du site */}
+         <div
+           aria-hidden
+           style={{
+             left: `${pointer.x}%`,
+             top: `${pointer.y}%`,
+             width: '120px',
+             height: '120px',
+             transform: 'translate(-50%, -50%)',
+             background: 'rgba(123,188,180,0.22)',
+             boxShadow: '0 12px 40px rgba(123,188,180,0.15)',
+             borderRadius: '9999px',
+             position: 'absolute',
+            zIndex: 50,
+             pointerEvents: 'none',
+             transition: 'width 160ms ease, height 160ms ease, transform 160ms ease',
+           }}
+         />
          
 
         {/* Partie description de la page principale avec un effet de focus autour du pointeur de la souris, et un flou qui augmente à mesure que le pointeur s'éloigne du centre de l'écran. Le texte et les boutons d'action sont affichés au-dessus de l'image de fond, avec une animation d'apparition lorsqu'ils deviennent visibles à l'écran. */}
