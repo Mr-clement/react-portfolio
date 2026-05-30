@@ -1,6 +1,6 @@
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
-import { FC, memo, useCallback, useMemo, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { heroData, SectionId } from '../../data/data';
 import Section from '../Layout/Section';
@@ -12,6 +12,8 @@ const Hero: FC = memo(() => {
   const { ref, isVisible } = useRevealOnVisible<HTMLDivElement>();
   const [pointer, setPointer] = useState({ x: 50, y: 50 });
   const [blurAmount, setBlurAmount] = useState(4);
+  const [follower, setFollower] = useState({ x: 50, y: 50 });
+  const rafRef = useRef<number | null>(null);
 
   const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -41,6 +43,36 @@ const Hero: FC = memo(() => {
   `;
   }, [pointer]);
 
+  const followerTransform = useMemo(() => {
+    const rx = (follower.x - 50) / 50;
+    const ry = (follower.y - 50) / 50;
+    const tx = rx * 10; // horizontal shift
+    const ty = ry * 8; // vertical shift
+    const rot = rx * 12; // rotation
+    const sc = 1 + Math.min(0.14, Math.hypot(rx, ry) * 0.12);
+    return `translate(-50%, -50%) translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(${sc})`;
+  }, [follower]);
+
+  // animate follower towards pointer with a small delay (lag)
+  useEffect(() => {
+    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+
+    const tick = () => {
+      setFollower(prev => {
+        const nx = lerp(prev.x, pointer.x, 0.08); // smaller = slower
+        const ny = lerp(prev.y, pointer.y, 0.08);
+        return { x: nx, y: ny };
+      });
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    if (rafRef.current == null) rafRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    };
+  }, [pointer]);
+
   //const focusClip = useMemo(() => `circle(7% at ${pointer.x}% ${pointer.y}%)`, [pointer]);
 
   return (
@@ -61,28 +93,40 @@ const Hero: FC = memo(() => {
             <video autoPlay muted loop playsInline className="h-full w-full object-cover">
               <source src="/images/background1.mp4" type="video/mp4" />
             </video> 
-            {/* Overlay sombre global */}
-          <div className="absolute inset-0 bg-black/40" />
+            {/* Overlay sombre global en fond stylisé (opacité augmentée) */}
+          <div className="absolute inset-0 overlay-bg" style={{opacity: 0.85}} />
           </div> 
          
-         {/* Rond suiveur du pointeur, couleur du site */}
+         {/* Web3-style follower blob */}
          <div
            aria-hidden
            style={{
              left: `${pointer.x}%`,
              top: `${pointer.y}%`,
-             width: '120px',
-             height: '120px',
-             transform: 'translate(-50%, -50%)',
-             background: 'rgba(123,188,180,0.22)',
-             boxShadow: '0 12px 40px rgba(123,188,180,0.15)',
-             borderRadius: '9999px',
+             width: 200,
+             height: 140,
              position: 'absolute',
-            zIndex: 50,
+             zIndex: 50,
              pointerEvents: 'none',
-             transition: 'width 160ms ease, height 160ms ease, transform 160ms ease',
-           }}
-         />
+             transform: followerTransform,
+             transition: 'transform 140ms ease-out',
+           }}>
+           <svg viewBox="0 0 180 120" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+             <defs>
+               <linearGradient id="gWeb3" x1="0" x2="1">
+                 <stop offset="0%" stopColor="#7bbcb4" stopOpacity="0.95" />
+                 <stop offset="60%" stopColor="#0b6b63" stopOpacity="0.85" />
+               </linearGradient>
+               <filter id="fBlur" x="-40%" y="-40%" width="180%" height="180%">
+                 <feGaussianBlur stdDeviation="8" />
+               </filter>
+             </defs>
+             <g filter="url(#fBlur)">
+               <path d="M60,10 C95,5 150,18 150,60 C150,100 95,115 60,105 C25,95 10,72 10,50 C10,26 25,15 60,10 Z" fill="url(#gWeb3)" stroke="rgba(123,188,180,0.28)" strokeWidth="2" />
+             </g>
+             <path d="M60,10 C95,5 150,18 150,60 C150,100 95,115 60,105 C25,95 10,72 10,50 C10,26 25,15 60,10 Z" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+           </svg>
+         </div>
          
 
         {/* Partie description de la page principale avec un effet de focus autour du pointeur de la souris, et un flou qui augmente à mesure que le pointeur s'éloigne du centre de l'écran. Le texte et les boutons d'action sont affichés au-dessus de l'image de fond, avec une animation d'apparition lorsqu'ils deviennent visibles à l'écran. */}
