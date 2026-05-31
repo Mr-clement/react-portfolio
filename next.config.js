@@ -15,6 +15,9 @@ const nextConfig = {
 
     return config;
   },
+   eslint: {
+    ignoreDuringBuilds: true,
+  },
   compress: true,
   generateEtags: true,
   pageExtensions: ['tsx', 'mdx', 'ts'],

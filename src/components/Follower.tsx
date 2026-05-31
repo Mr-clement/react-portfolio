@@ -80,10 +80,10 @@ const Follower = React.memo(() => {
       }}
     >
       <svg
-        width="100%"
         height="100%"
-        viewBox="0 0 180 120"
         preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 180 120"
+        width="100%"
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
@@ -92,7 +92,7 @@ const Follower = React.memo(() => {
             <stop offset="60%" stopColor="#0b6b63" stopOpacity="0.8" />
           </linearGradient>
 
-          <filter id="fBlurGlobal" x="-40%" y="-40%" width="180%" height="180%">
+          <filter height="180%" id="fBlurGlobal" width="180%" x="-40%" y="-40%">
             <feGaussianBlur stdDeviation="8" />
           </filter>
         </defs>
